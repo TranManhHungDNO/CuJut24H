@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Button } from "zmp-ui";
-import { officialAccounts } from "./officialAccounts";  // Import danh sách từ file officialAccounts.tsx
-import tw from "twin.macro";  // Tailwind CSS nếu bạn đang sử dụng
+import { officialAccounts } from "./officialAccounts"; // Import danh sách từ file officialAccounts.tsx
+import tw from "twin.macro"; // Tailwind CSS nếu bạn đang sử dụng
 
 const ScrollContainer = styled.div`
-  width: 100%;
+  width: 90%; /* Giới hạn chiều rộng tổng cộng là 90% */
   height: 200px; /* Hiển thị 4 link */
   overflow: hidden;
   position: relative;
+  margin: 0 auto; /* Căn giữa */
   ${tw`bg-transparent`}; /* Nền trong suốt hoặc trùng nền */
 `;
 
@@ -49,7 +50,7 @@ const ListOA: React.FC = () => {
             <span>{item.oaName}</span>
             <Button
               type="highlight"
-              onClick={() => window.open(item.oaLink, "_blank")}  // Mở trang mới
+              onClick={() => window.open(item.oaLink, "_blank")} // Mở trang mới
             >
               Truy cập
             </Button>

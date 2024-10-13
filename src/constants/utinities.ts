@@ -20,13 +20,13 @@ export const APP_UTINITIES: Array<Utinity> = [
         key: "info",
         label: "Thông tin - hướng dẫn",
         icon: Icon.BookIcon,
-        path: "/information-guide",
+        link: "https://mini.dno.vn/thongtin.html",
     },
     {
         key: "feedback",
-        label: "Góp ý - phản ánh",
+        label: "Phản ánh - hiện trường",
         icon: Icon.PenIcon,
-        path: "/feedbacks",
+        link: "https://phananhht.daknong.gov.vn/",
     },
     {
         key: "goverment",
@@ -38,7 +38,7 @@ export const APP_UTINITIES: Array<Utinity> = [
         key: "file-search",
         label: "Tra cứu hồ sơ",
         icon: Icon.SearchIcon,
-        path: "/search",
+        link: "https://dichvucong.daknong.gov.vn/dichvucong/tracuu",
     },
     {
         key: "goverment",
