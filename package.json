@@ -1,10 +1,18 @@
 {
-    "name": "Chuyển đổi số Cư Jút",
+    "name": "chuyendoiso-cujut",
     "private": true,
     "version": "1.0.0",
     "description": "Chuyển đổi số Cư Jút",
-    "repository": "hung@dno.vn",
-    "license": "hung@dno.vn",
+    "author": {
+        "name": "Trần Mạnh Hùng",
+        "email": "hung@dno.vn",
+        "url": "tel:0944624748"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/TranManhHungDNO/CuJut24H/"  
+    },
+    "license": "MIT",  
     "browserslist": [
         "Android >= 5",
         "IOS >= 9.3",

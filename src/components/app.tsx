@@ -6,7 +6,6 @@ import { App, SnackbarProvider } from "zmp-ui";
 import Auth from "./Auth";
 import ErrorNotification from "./notifications/ErrorNotification";
 import LoadingPage from "./LoadingPage"; // Import trang Loading
-import hotline from "./hotline"; // Đường dẫn chính xác tới hotline.tsx
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 

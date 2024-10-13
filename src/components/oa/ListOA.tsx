@@ -1,52 +1,63 @@
-import React, { FC } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Box, List, Text, Button } from "zmp-ui";
-import tw from "twin.macro";
-import { OAItemSkeleton } from "@components/skeleton";
-import { useStore } from "@store";
-import { officialAccounts } from "./officialAccounts";  // Import từ file mới
+import { Button } from "zmp-ui";
+import { officialAccounts } from "./officialAccounts";  // Import danh sách từ file officialAccounts.tsx
+import tw from "twin.macro";  // Tailwind CSS nếu bạn đang sử dụng
 
-const ListWrapper = styled(Box)`
-    ${tw`bg-ui_bg`};
+const ScrollContainer = styled.div`
+  width: 100%;
+  height: 200px; /* Hiển thị 4 link */
+  overflow: hidden;
+  position: relative;
+  ${tw`bg-transparent`}; /* Nền trong suốt hoặc trùng nền */
 `;
 
-const SubTitle = styled(Text)`
-    ${tw`text-text_2`}
-`;
-const ListOAStyled = styled(List)`
-    padding: 8px 0;
-    margin-top: 16px;
+const ScrollContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  transition: transform 1s ease-in-out; /* Hiệu ứng cuộn mượt mà */
 `;
 
-const WebItem = styled(Box)`
-    ${tw`flex justify-between items-center py-2`}
+const WebItem = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  ${tw`text-gray-700`}; /* Màu chữ trùng với các thành phần khác */
+  &:hover {
+    ${tw`bg-transparent`}; /* Tránh đổi màu khi hover */
+  }
 `;
 
-const ListOA: FC<any> = () => {
-    const loading = useStore(state => state.gettingOrganization); // Có thể lấy trạng thái loading từ store hoặc bỏ qua nếu không cần
+const ListOA: React.FC = () => {
+  const [visibleIndex, setVisibleIndex] = useState(0);
 
-    return (
-        <ListWrapper mt={2} p={4}>
-            <Text.Title size="small">Danh bạ Web</Text.Title>
-            <SubTitle size="small">Trang web chính thức của cơ quan nhà nước</SubTitle>
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setVisibleIndex((prevIndex) =>
+        prevIndex + 4 >= officialAccounts.length ? 0 : prevIndex + 4
+      );
+    }, 5000); // Dừng lại 5 giây trước khi cuộn tiếp
 
-            <ListOAStyled>
-                {!loading &&
-                    officialAccounts?.map(item => (
-                        <WebItem key={item.oaId}>
-                            <Text size="small">{item.oaName}</Text>
-                            <Button
-                                type="primary"
-                                onClick={() => window.open(item.oaLink, "_blank")}
-                            >
-                                Truy cập
-                            </Button>
-                        </WebItem>
-                    ))}
-                {loading && <OAItemSkeleton />}
-            </ListOAStyled>
-        </ListWrapper>
-    );
+    return () => clearInterval(interval); // Dọn dẹp interval khi component unmount
+  }, []);
+
+  return (
+    <ScrollContainer>
+      <ScrollContent style={{ transform: `translateY(-${visibleIndex * 50}px)` }}>
+        {officialAccounts.map((item) => (
+          <WebItem key={item.oaId}>
+            <span>{item.oaName}</span>
+            <Button
+              type="highlight"
+              onClick={() => window.open(item.oaLink, "_blank")}  // Mở trang mới
+            >
+              Truy cập
+            </Button>
+          </WebItem>
+        ))}
+      </ScrollContent>
+    </ScrollContainer>
+  );
 };
 
 export default ListOA;
