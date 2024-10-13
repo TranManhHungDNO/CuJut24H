@@ -1,4 +1,4 @@
-# Cư Jút 24H - Ứng dụng mini trên Zalo Chuyển đổi số Cư Jút
+# Cư Jút 24H - Zalo Mini App Chuyển đổi số Cư Jút
 
 ## Mô tả hệ thống
 
