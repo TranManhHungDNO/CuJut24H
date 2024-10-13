@@ -30,9 +30,9 @@ export const APP_UTINITIES: Array<Utinity> = [
     },
     {
         key: "goverment",
-        label: "Cổng dịch vụ công quốc gia",
+        label: "Dịch vụ công Đắk Nông",
         icon: Icon.GlobeIcon,
-        link: "https://dichvucong.gov.vn/",
+        link: "https://dichvucong.daknong.gov.vn",
     },
     {
         key: "file-search",
@@ -40,43 +40,49 @@ export const APP_UTINITIES: Array<Utinity> = [
         icon: Icon.SearchIcon,
         path: "/search",
     },
+    {
+        key: "goverment",
+        label: "Cổng Thông tin điện tử Đắk Nông",
+        icon: Icon.GlobeIcon,
+        link: "https://daknong.gov.vn/",
+    },
 ];
 
 export const CONTACTS: Array<Utinity> = [
     {
         key: "social-insurance",
-        label: "BHXH TP Thủ Đức",
-        link: "",
+        label: "Dịch vụ công BHXH",
+        link: "https://dichvucong.baohiemxahoi.gov.vn/#/index",
         iconSrc: SocialInsuranceLogo,
     },
     {
         key: "si-number",
-        label: "Số tài khoản Thu BHXH",
-        link: "",
+        label: "Đăng ký lịch khám chữa bệnh",
+        link: "http://henkham.trungtamytehuyencujut.com.vn/",
         iconSrc: SocialInsurranceNumber,
     },
     {
         key: "internal-number",
-        label: "Số nội bộ tổ nghiệp vụ",
-        link: "",
+        label: "Số điện thoại đường dây nóng",
+        link: "https://mini.dno.vn/hotline.html",
         iconSrc: InternalPhone,
     },
     {
         key: "department",
-        label: "Điểm thu BHXH, BHYT",
-        link: "",
+        label: "Bản đồ lượng mưa",
+        link: "https://vrain.vn/43/overview?public_map=windy",
         iconSrc: Location,
     },
     {
         key: "update-identification",
-        label: "Cập nhật Mã định danh / CCCD",
-        link: "",
+        label: "Tra cứu Quy hoạch",
+        link: "https://gis.daknong.gov.vn/quyhoachv4.aspx",
         iconSrc: Identification,
     },
     {
         key: "youtube",
-        label: "Youtube",
-        link: "",
+        label: "Truyền hình Đắk Nông",
+        link: "https://cloudstreamthdn.tek4tv.vn/live/smil:daknong.smil/playlist.m3u",
         iconSrc: Youtube,
     },
 ];

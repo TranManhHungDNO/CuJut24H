@@ -1,14 +1,17 @@
 import { MINI_APP_ID } from "@constants/common";
 import Routes from "@pages";
 import { useStore } from "@store";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { App, SnackbarProvider } from "zmp-ui";
 import Auth from "./Auth";
 import ErrorNotification from "./notifications/ErrorNotification";
+import LoadingPage from "./LoadingPage"; // Import trang Loading
+import hotline from "./hotline"; // Đường dẫn chính xác tới hotline.tsx
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const MyApp = () => {
     const token = useStore(state => state.token);
-
     const [, getOrganization] = useStore(state => [
         state.organization,
         state.getOrganization,
@@ -28,14 +31,27 @@ const MyApp = () => {
         }
     }, [token]);
 
+    // State để quản lý loading
+    const [isLoading, setIsLoading] = useState(true);
+
+    // Hàm kết thúc loading
+    const handleLoadingFinish = () => {
+        setIsLoading(false);
+    };
+
     return (
         <App>
-            <SnackbarProvider>
-                <ErrorNotification />
-                <Auth />
-                <Routes />
-            </SnackbarProvider>
+            {isLoading ? ( // Hiển thị trang loading nếu đang trong trạng thái loading
+                <LoadingPage onFinish={handleLoadingFinish} />
+            ) : ( // Khi hết loading, hiển thị nội dung chính
+                <SnackbarProvider>
+                    <ErrorNotification />
+                    <Auth />
+                    <Routes />
+                </SnackbarProvider>
+            )}
         </App>
     );
 };
+
 export default MyApp;

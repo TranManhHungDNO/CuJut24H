@@ -32,12 +32,12 @@ const HomePage: React.FunctionComponent = () => {
             id="home-page"
             customHeader={
                 <HomeHeader
-                    title="DỊCH VỤ CÔNG"
+                    title="Chuyển đổi số Cư Jút"
                     name={organization?.name || ""}
                 />
             }
         >
-            <UserInfo />
+           <UserInfo />
             <Utinities utinities={APP_UTINITIES} />
             <ListOA />
             <Contacts />
