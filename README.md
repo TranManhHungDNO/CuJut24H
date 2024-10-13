@@ -81,4 +81,4 @@ export const API = {
 
 ## Bản quyền
 
-Dự án này thuộc bản quyền của **Cư Jút 24H**. Email liên hệ: **hung@dno.vn**. Mọi hành vi sao chép không có sự cho phép đều bị coi là sự phá hoại.
+Dự án này thuộc bản quyền của Zalo Mini App được **Cư Jút 24H** biên dịch lại. Email liên hệ: **hung@dno.vn**. Chia sẻ công khai sử dụng miễn phí
