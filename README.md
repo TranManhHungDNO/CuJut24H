@@ -34,13 +34,52 @@ Dự án tuân thủ một cấu trúc rõ ràng để tổ chức mã nguồn. 
 
 ```shell
 .
+.
 ├── src
 │   ├── components
 │   │   ├── UIComponent1
 │   │   │   ├── index.ts
 │   │   │   └── UIComponent1.tsx
+│   │   ├── UIComponent2
+│   │   │   ├── index.ts
+│   │   │   └── UIComponent2.tsx
+│   │   └── ...
 │   ├── services
-│   └── ...
+│   │   ├── services.ts
+│   │   ├── services.mock.ts
+│   │   └── zalo.ts
+│   ├── mock
+│   │   ├── db.json
+│   ├── pages
+│   │   ├── [PageName]
+│   │   │   ├── index.ts
+│   │   │   └── [PageName].tsx
+│   │   ├── Page1
+│   │   │   ├── index.ts
+│   │   │   └── Page1.tsx
+│   │   ├── Page2
+│   │   │   ├── index.ts
+│   │   │   ├── Section1.tsx
+│   │   │   ├── Section2.tsx
+│   │   │   └── Page2.tsx
+│   │   └── ...
+│   ├── constants
+│   │   └── common.ts
+│   ├── utils
+│   ├── types
+│   ├── css
+│   │   ├── global.css
+│   │   ├── tailwind.css
+│   └── assets
+│       ├── image1.png
+│       ├── image2.png
+│       └── ...
+├── .env
+├── .env.production
+├── .env.development
+├── .gitignore
+├── package.json
+└── README.md
 ```
 
 ## Quản lý trạng thái
