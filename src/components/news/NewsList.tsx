@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+import { useSwipeable } from 'react-swipeable';
 
 interface Article {
   title: string;
@@ -16,6 +17,8 @@ const NewsListContainer = styled.div`
   background-color: #f5f5f5;
   padding: 20px;
   border-radius: 10px;
+  overflow: hidden;
+  position: relative;
 `;
 
 const TabContainer = styled.div`
@@ -34,34 +37,47 @@ const TabButton = styled.button<{ active: boolean }>`
   border-radius: 5px;
 `;
 
-const NewsItemStyled = styled.div`
+const NewsItemStyled = styled.div<{ animationDirection: string }>`
   display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
   border: 1px solid #eaeaea;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  align-items: center;
-  text-align: center;
   background-color: white;
+  animation: ${({ animationDirection }) => animationDirection} 0.5s ease-in-out;
+
+  @keyframes slideInRight {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slideInLeft {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
 `;
 
 const NewsImage = styled.img`
   width: 80%;
   height: auto;
   object-fit: cover;
-  border-top-left-radius: 20px;
-  border-bottom-right-radius: 20px;
   cursor: pointer;
 `;
 
 const NewsDescription = styled.div`
   padding: 15px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   text-align: justify;
-  width: 100%;
 `;
 
 const NewsTitle = styled.h2`
@@ -87,12 +103,15 @@ const NewsIcon = styled.img`
 `;
 
 const NewsList: React.FC<{ articles: Article[] }> = ({ articles }) => {
-  const [activeTab, setActiveTab] = useState(0); // Tab bắt đầu từ Cư Jút 24H
+  const [activeTab, setActiveTab] = useState(0); // Tab mặc định là 0 (Cư Jút 24H)
+  const [currentArticleIndex, setCurrentArticleIndex] = useState(0);
+  const [animationDirection, setAnimationDirection] = useState<'slideInLeft' | 'slideInRight'>('slideInRight');
+
   const [videoArticles, setVideoArticles] = useState<Article[]>([]);
-  const [radioArticles, setRadioArticles] = useState<Article[]>([]); // Dữ liệu cho tab Radio
+  const [radioArticles, setRadioArticles] = useState<Article[]>([]);
 
   const openLink = (url: string) => {
-    window.open(url, '_blank'); // Mở trong tab mới
+    window.open(url, '_blank');
   };
 
   // Lấy dữ liệu từ RSS feed của Video (Tab 2)
@@ -107,11 +126,10 @@ const NewsList: React.FC<{ articles: Article[] }> = ({ articles }) => {
         const articles = data.items.map((item: any) => ({
           title: item.title,
           link: item.link,
-          description: item.description.replace(/<[^>]+>/g, ''), // Bỏ thẻ HTML khỏi mô tả
-          imageUrl: 'https://media.baosonla.org.vn/public/hieupt/2024-03-18-oi/bia-cover.jpg', // Ảnh mặc định cho Tab 2
+          description: item.description.replace(/<[^>]+>/g, ''),
+          imageUrl: 'https://media.baosonla.org.vn/public/hieupt/2024-03-18-oi/bia-cover.jpg',
           pubDate: item.pubDate,
         }));
-
         setVideoArticles(articles);
       }
     };
@@ -129,15 +147,16 @@ const NewsList: React.FC<{ articles: Article[] }> = ({ articles }) => {
 
       if (data.status === 'ok') {
         const articles = data.items.map((item: any) => {
-          // Lấy URL ảnh từ nội dung mô tả nếu có
           const imageUrlMatch = item.description.match(/<img[^>]+src="([^">]+)"/);
-          const imageUrl = imageUrlMatch ? imageUrlMatch[1] : 'https://trungtamtruyenthongcujut.daknong.gov.vn/uploads/2020.png'; // Ảnh mặc định nếu không có ảnh
+          const imageUrl = imageUrlMatch
+            ? imageUrlMatch[1]
+            : 'https://trungtamtruyenthongcujut.daknong.gov.vn/uploads/2020.png';
 
           return {
             title: item.title,
             link: item.link,
-            description: item.description.replace(/<[^>]+>/g, ''), // Bỏ thẻ HTML khỏi mô tả
-            imageUrl, // Dùng ảnh từ RSS feed cho Tab Radio
+            description: item.description.replace(/<[^>]+>/g, ''),
+            imageUrl,
             pubDate: item.pubDate,
           };
         });
@@ -149,72 +168,70 @@ const NewsList: React.FC<{ articles: Article[] }> = ({ articles }) => {
     fetchRadioArticles();
   }, []);
 
-  // Chia các tin thành 3 nhóm: Tab 1 (Cư Jút 24h), Tab 2 (Video), Tab 3 (Cư Jút Radio)
   const tabArticles = [articles.slice(0, 5), videoArticles.slice(0, 5), radioArticles.slice(0, 5)];
 
-  const handleSwipe = (direction: 'left' | 'right') => {
-    if (direction === 'left' && activeTab > 0) {
-      setActiveTab(activeTab - 1);
-    } else if (direction === 'right' && activeTab < 2) {
-      setActiveTab(activeTab + 1);
-    }
+  const handleNextArticle = () => {
+    setAnimationDirection('slideInRight');
+    setCurrentArticleIndex((prevIndex) =>
+      prevIndex < tabArticles[activeTab].length - 1 ? prevIndex + 1 : 0
+    );
   };
 
+  const handlePrevArticle = () => {
+    setAnimationDirection('slideInLeft');
+    setCurrentArticleIndex((prevIndex) =>
+      prevIndex > 0 ? prevIndex - 1 : tabArticles[activeTab].length - 1
+    );
+  };
+
+  useEffect(() => {
+    const intervalId = setInterval(handleNextArticle, 3000);
+    return () => clearInterval(intervalId); // Clear interval khi component bị hủy
+  }, [activeTab, currentArticleIndex]);
+
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft: handleNextArticle,
+    onSwipedRight: handlePrevArticle,
+    trackMouse: true, // Hỗ trợ kéo bằng chuột
+  });
+
   return (
-    <NewsListContainer>
+    <NewsListContainer {...swipeHandlers}>
       {/* Tab Navigation */}
       <TabContainer>
-        {[
-          { name: 'Tin Cư Jút' },
-          { name: 'Video Đắk Nông' },
-          { name: 'Radio Cư Jút' }, //
-        ].map((tab, tabIndex) => (
+        {['Tin Cư Jút', 'Video Đắk Nông', 'Radio Cư Jút'].map((tab, tabIndex) => (
           <TabButton
             key={tabIndex}
             active={activeTab === tabIndex}
-            onClick={() => setActiveTab(tabIndex)}
+            onClick={() => {
+              setActiveTab(tabIndex);
+              setCurrentArticleIndex(0); // Reset về bài viết đầu tiên khi chuyển tab
+            }}
           >
-            {tab.name}
+            {tab}
           </TabButton>
         ))}
       </TabContainer>
 
-      {/* Danh sách tin cho từng tab */}
-      {tabArticles[activeTab].map((article, index) => (
-        <NewsItemStyled key={index}>
-          {article.imageUrl && (
-            <NewsImage
-              src={article.imageUrl}
-              alt={article.title}
-              onClick={() => openLink(article.link)}
-            />
-          )}
+      {/* Hiển thị bài viết hiện tại */}
+      {tabArticles[activeTab][currentArticleIndex] && (
+        <NewsItemStyled animationDirection={animationDirection}>
+          <NewsImage
+            src={tabArticles[activeTab][currentArticleIndex].imageUrl}
+            alt={tabArticles[activeTab][currentArticleIndex].title}
+            onClick={() => openLink(tabArticles[activeTab][currentArticleIndex].link)}
+          />
           <NewsDescription>
-            <NewsTitle onClick={() => openLink(article.link)}>
-              {article.title}
-              {new Date().getTime() - new Date(article.pubDate).getTime() < 5 * 24 * 60 * 60 * 1000 && (
-                <NewsIcon src="/path/to/news.gif" alt="New" />
-              )}
+            <NewsTitle onClick={() => openLink(tabArticles[activeTab][currentArticleIndex].link)}>
+              {tabArticles[activeTab][currentArticleIndex].title}
             </NewsTitle>
             <NewsDate>
-              Cập nhật lúc: {new Date(article.pubDate).toLocaleString()}
+              Cập nhật lúc: {new Date(tabArticles[activeTab][currentArticleIndex].pubDate).toLocaleString()}
             </NewsDate>
-            <p>{article.description}</p>
+            <p>{tabArticles[activeTab][currentArticleIndex].description}</p>
           </NewsDescription>
         </NewsItemStyled>
-      ))}
-
-      {/* Vuốt để chuyển tab */}
-      <div
-        onTouchStart={(e) => {
-          const touchStartX = e.changedTouches[0].screenX;
-          e.currentTarget.onTouchEnd = (ev) => {
-            const touchEndX = ev.changedTouches[0].screenX;
-            if (touchEndX < touchStartX) handleSwipe('left');
-            if (touchEndX > touchStartX) handleSwipe('right');
-          };
-        }}
-      />
+      )}
     </NewsListContainer>
   );
 };

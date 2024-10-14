@@ -10,9 +10,9 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/TranManhHungDNO/CuJut24H/"  
+        "url": "https://github.com/TranManhHungDNO/CuJut24H/"
     },
-    "license": "MIT",  
+    "license": "MIT",
     "browserslist": [
         "Android >= 5",
         "IOS >= 9.3",
@@ -64,6 +64,7 @@
         "react-router": "^6.14.1",
         "react-router-dom": "^6.8.2",
         "react-slick": "^0.30.2",
+        "react-swipeable": "^7.0.1",
         "slick-carousel": "^1.8.1",
         "styled-components": "^5.3.11",
         "twin.macro": "^3.3.1",

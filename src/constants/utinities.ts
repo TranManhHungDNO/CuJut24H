@@ -57,8 +57,8 @@ export const CONTACTS: Array<Utinity> = [
     },
     {
         key: "si-number",
-        label: "Đăng ký lịch khám chữa bệnh",
-        link: "http://henkham.trungtamytehuyencujut.com.vn/",
+        label: "Định danh điện tử VNEID",
+        link: "https://vneid.gov.vn/",
         iconSrc: SocialInsurranceNumber,
     },
     {
@@ -90,14 +90,14 @@ export const CONTACTS: Array<Utinity> = [
 export const PROCEDURES: Array<Utinity> = [
     {
         key: "renew",
-        label: "Gia hạn thẻ BHYT trực tuyến",
+        label: "Tra cứu phiếu hẹn",
         link: "",
         iconSrc: Renew,
     },
     {
         key: "benefit",
-        label: "Các chế độ BHXH",
-        link: "",
+        label: "Đăng ký lịch khám chữa bệnh",
+        link: "http://henkham.trungtamytehuyencujut.com.vn/",
         iconSrc: Benefit,
     },
 ];
